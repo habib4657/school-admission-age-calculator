@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>স্কুল ভর্তি বয়স ক্যালকুলেটর ২০২৭ | Satkhira School Reviews</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f1f5f9;color:#172033;font-family:Arial,"Noto Sans Bengali",sans-serif}
+header{background:#14532d;color:white;text-align:center;padding:25px 15px}
+header h1{font-size:25px;margin:0 0 8px}
+header p{margin:0;font-size:14px}
+main{max-width:600px;margin:22px auto;padding:0 14px}
+.card{background:white;padding:22px;border-radius:16px;box-shadow:0 4px 18px #0000000d}
+label{display:block;font-weight:bold;margin:16px 0 7px}
+input,select,button{width:100%;padding:13px;border-radius:9px;font-size:16px}
+input,select{border:1px solid #cbd5e1;background:white}
+button{border:0;background:#15803d;color:white;font-weight:bold;cursor:pointer;margin-top:18px}
+button.secondary{background:#1d4ed8}
+#result{display:none;margin-top:20px;padding:16px;border-radius:10px;background:#f0fdf4;line-height:1.9}
+.note{font-size:13px;color:#475569;line-height:1.7;margin-top:18px}
+footer{text-align:center;font-size:13px;color:#475569;padding:22px}
+</style>
+</head>
+<body>
+<header>
+<h1>🎓 স্কুল ভর্তি বয়স ক্যালকুলেটর</h1>
+<p>SATKHIRA SCHOOL REVIEWS · ভর্তি শিক্ষাবর্ষ ২০২৭</p>
+</header>
+<main>
+<section class="card">
+<h2>সন্তানের বয়স যাচাই করুন</h2>
+<label for="dob">জন্মতারিখ নির্বাচন করুন</label>
+<input type="date" id="dob" max="2027-01-01">
+
+<label for="grade">যে শ্রেণিতে ভর্তি হতে চান</label>
+<select id="grade">
+<option value="1">প্রথম শ্রেণি</option>
+<option value="2">দ্বিতীয় শ্রেণি</option>
+<option value="3">তৃতীয় শ্রেণি</option>
+<option value="4">চতুর্থ শ্রেণি</option>
+<option value="5">পঞ্চম শ্রেণি</option>
+<option value="6">ষষ্ঠ শ্রেণি</option>
+<option value="7">সপ্তম শ্রেণি</option>
+<option value="8">অষ্টম শ্রেণি</option>
+<option value="9">নবম শ্রেণি</option>
+</select>
+
+<button onclick="calculate()">বয়স ও যোগ্যতা যাচাই করুন</button>
+<div id="result" aria-live="polite"></div>
+<button id="copyBtn" class="secondary" style="display:none" onclick="copyResult()">ফলাফল কপি করুন</button>
+
+<p class="note">বয়স গণনার নির্ধারিত তারিখ: ১ জানুয়ারি ২০২৭। এই ক্যালকুলেটরের শ্রেণিভিত্তিক সীমা প্রথম শ্রেণির ৫ থেকে ৭ বছরের নীতির ধারাবাহিকতা ধরে হিসাব করা হয়েছে। এটি সরকারি ভর্তি বিজ্ঞপ্তির বিকল্প নয়; সংশ্লিষ্ট বিদ্যালয়ের নির্দেশনা যাচাই করুন।</p>
+</section>
+</main>
+<footer>© Satkhira School Reviews · শিক্ষা-সংক্রান্ত তথ্যসেবা</footer>
+<script>
+const ranges={
+1:[5,7],2:[6,8],3:[7,9],4:[8,10],5:[9,11],
+6:[10,12],7:[11,13],8:[12,14],9:[13,15]
+};
+const ref=new Date(Date.UTC(2027,0,1));
+let shareText="";
+
+function calculate(){
+ const raw=document.getElementById("dob").value;
+ const grade=Number(document.getElementById("grade").value);
+ const box=document.getElementById("result");
+ const copy=document.getElementById("copyBtn");
+ if(!raw){alert("প্রথমে জন্মতারিখ নির্বাচন করুন।");return}
+ const dob=new Date(raw+"T00:00:00Z");
+ if(Number.isNaN(dob.getTime())||dob>ref){
+  alert("সঠিক জন্মতারিখ নির্বাচন করুন।");return;
+ }
+ let y=2027-dob.getUTCFullYear();
+ let m=0,d=1-dob.getUTCDate();
+ if(d<0){m--;d+=new Date(Date.UTC(2027,0,0)).getUTCDate()}
+ m+=1-dob.getUTCMonth();
+ if(m<0){y--;m+=12}
+ if(m>=12){y+=Math.floor(m/12);m%=12}
+ const [min,max]=ranges[grade];
+ const age=dob.getTime()===ref.getTime()?"০ বছর":`${y} বছর ${m} মাস ${d} দিন`;
+ const eligible=y>=min&&y<max;
+ const dateText=raw.split("-").reverse().join("-");
+ const gradeBn=["","প্রথম","দ্বিতীয়","তৃতীয়","চতুর্থ","পঞ্চম","ষষ্ঠ","সপ্তম","অষ্টম","নবম"][grade];
+ const pad=n=>String(n).padStart(2,"0");
+ const from=`${pad(2)}/01/${2027-min}`;
+ const to=`01/01/${2027-min+1}`;
+ const bn=n=>String(n).replace(/\d/g,x=>"০১২৩৪৫৬৭৮৯"[x]);
+ box.style.display="block";
+ box.innerHTML=`<h3>${eligible?"✅ বয়সসীমার মধ্যে":"⚠️ বয়সসীমার বাইরে"}</h3>
+ <b>জন্মতারিখ:</b> ${dateText}<br>
+ <b>১ জানুয়ারি ২০২৭ তারিখে বয়স:</b> ${age}<br>
+ <b>নির্বাচিত শ্রেণি:</b> ${gradeBn} শ্রেণি<br>
+ <b>এই ক্যালকুলেটরের হিসাব অনুযায়ী জন্মতারিখের সীমা:</b> ${from} – ${to}<br>
+ <b>ফলাফল:</b> ${eligible?"নির্ধারিত বয়সসীমার মধ্যে":"নির্ধারিত বয়সসীমার মধ্যে নয়"}`;
+ shareText=`স্কুল ভর্তি বয়স ক্যালকুলেটর ২০২৭\nSatkhira School Reviews\nজন্মতারিখ: ${dateText}\n১ জানুয়ারি ২০২৭ তারিখে বয়স: ${age}\nশ্রেণি: ${gradeBn} শ্রেণি\nহিসাব: ${eligible?"বয়সসীমার মধ্যে":"বয়সসীমার বাইরে"}\n\nএটি প্রাথমিক যাচাই; সরকারি বিজ্ঞপ্তি ও বিদ্যালয়ের নির্দেশনা যাচাই করুন।`;
+ copy.style.display="block";
+}
+async function copyResult(){
+ try{
+  await navigator.clipboard.writeText(shareText);
+  alert("ফলাফল কপি হয়েছে। এখন ফেসবুকে পেস্ট করতে পারবেন।");
+ }catch(e){
+  const t=document.createElement("textarea");
+  t.value=shareText;document.body.appendChild(t);
+  t.select();document.execCommand("copy");t.remove();
+  alert("ফলাফল কপি করা হয়েছে।");
+ }
+}
+</script>
+</body>
+</html>
