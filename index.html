@@ -98,6 +98,9 @@ function calculate(){
  
  const bn=n=>String(n).replace(/\d/g,x=>"০১২৩৪৫৬৭৮৯"[x]);
  box.style.display="block";
+ box.style.background = eligible ? 
+  "#E8F8EE" : "#FDE8E8";
+box.style.color = eligible ? "#166534" : "#991B1B";
  box.innerHTML=`<h3>${eligible?"✅ বয়সসীমার মধ্যে":"⚠️ বয়সসীমার বাইরে"}</h3>
  <b>জন্মতারিখ:</b> ${dateText}<br>
  <b>১ জানুয়ারি ২০২৭ তারিখে বয়স:</b> ${age}<br>
